@@ -22,7 +22,7 @@ posts = [{
 
 @app.route("/")
 def hellow():
-    return render_template('home.html' ,  posts= posts , title = "AHome")
+    return render_template('home.html' ,  posts= posts , title = "Ahmad Home")
 @app.route("/about")
 def toAbout():
     return render_template ('about.html' , title="Testtttting")
