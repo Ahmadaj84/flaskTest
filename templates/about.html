@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		{%if title%}
+		<title>The {{title}} Page</title>
+		{% else%}
+		<title>The Main Pag00000e</title>
+		{%endif%}
+	</head>
+	<body>
+<h1>This is the main page </h1>
+{% for p in posts		%}
+<h2>{{p.title}}</h2>
+<h3>by {{p.author}} on {{p.date_posted}}</h3>
+<h3>{{p.content}}</h3>
+{% endfor%}
+	</body>
+</html>
