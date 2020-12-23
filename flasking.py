@@ -1,4 +1,4 @@
-from flask import Flask, render_template,url_for
+from flask import Flask, render_template,url_for,flash,redirect
 from forms import RegisterationForm , LoginForm
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '0329feb15fe89e480a7c333ef64c0d8c'
@@ -26,9 +26,12 @@ def hellow():
 @app.route("/about")
 def toAbout():
     return render_template ('about.html' , title="Testtttting")
-@app.route("/register")
+@app.route("/register", methods = ['GET' , 'POST'] )
 def register():
     form = RegisterationForm()
+    if form.validate_on_submit():
+        flash(f'Account has been created to the user {form.username.data}!!','success')
+        return redirect(url_for('hellow'))
     return render_template('register.html', title = 'Register' , form= form)
 @app.route("/login")
 def login():
