@@ -19,7 +19,7 @@ posts = [{
 'content': '3rd post content',
 'date_posted': 'April 30,2018'}]
 
-
+@app.route("/home")
 @app.route("/")
 def hellow():
     return render_template('home.html' ,  posts= posts , title = "Ahmad Home")
