@@ -33,9 +33,14 @@ def register():
         flash(f'Account has been created to the user {form.username.data}!!','success')
         return redirect(url_for('hellow'))
     return render_template('register.html', title = 'Register' , form= form)
-@app.route("/login")
+@app.route("/login", methods=['GET','POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@a.com' and form.password.data == 'password':
+            flash('you have been logged in !!' , 'success')
+        else:
+            flash('wrong password or username!!', 'danger')
     return render_template('login.html', title = 'Login' , form= form)
 
 
