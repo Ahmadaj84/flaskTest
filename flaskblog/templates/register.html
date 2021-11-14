@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block body %}
+{% block content %}
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -46,16 +46,16 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.confir_password.label(class="form-control-label") }}
-                    {% if form.confir_password.errors %}
-                        {{ form.confir_password(class="form-control form-control-lg is-invalid") }}
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.confir_password.errors %}
+                            {% for error in form.confirm_password.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.confir_password(class="form-control form-control-lg") }}
+                        {{ form.confirm_password(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
             </fieldset>
@@ -69,4 +69,4 @@
             Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
         </small>
     </div>
-{% endblock body %}
+{% endblock content %}
