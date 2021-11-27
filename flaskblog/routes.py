@@ -1,30 +1,22 @@
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
-from flaskblog.forms import RegistrationForm, LoginForm
-from flaskblog.models import User, Post
+from flaskblog.forms import RegistrationForm, LoginForm ,InstituteForm , StudintOption
+from flaskblog.models import User, Institute
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
 
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
+    institute = Institute.query.all()
+    form = StudintOption()
+    form.option1.choices = [(row.id,row.instName) for row in institute ]
+    form.option2.choices = [(row.id,row.instName) for row in institute ]
+    form.option3.choices = [(row.id,row.instName) for row in institute ]
+
+    return render_template('home.html', institute=institute , form = form)
 
 
 @app.route("/about")
@@ -38,7 +30,7 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(form.password.data)#.decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
@@ -73,3 +65,15 @@ def logout():
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+@app.route("/newinst" , methods=['GET', 'POST'])
+@login_required
+def newinst():
+    form = InstituteForm()
+    if form.validate_on_submit():
+        institute = Institute(instName = form.instName.data, supName = form.supName.data,mobile = form.mobile.data,email = form.email.data ,studenMaxNum = form.studenMaxNum.data)
+        db.session.add(institute)
+        db.session.commit()
+        flash('تم إضافة ' + institute.instName, 'success')
+        return redirect(url_for('home'))
+    return render_template('newinst.html',title='New Institute' , form=form)
